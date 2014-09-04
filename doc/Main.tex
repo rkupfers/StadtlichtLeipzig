@@ -1,0 +1,70 @@
+\documentclass[11pt,a4paper,pdftex,parskip]{scrreprt}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[german]{fancyref}
+\usepackage{scrhack,ngerman,listings,verbatim,graphicx,float,url,eurosym,textcomp} %german
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathtools} %Mathematik
+
+\usepackage[babel,german=swiss]{csquotes} %Anführungszeichen
+\usepackage{cite,bibgerm,moreverb} %Litertur
+\bibliographystyle{gerapali}
+\usepackage[german]{nomencl} %Abkürzungsverzeichniss
+%\usepackage[toc]{glossaries} %Glossar
+
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+\setlength{\nomlabelwidth}{0.2\hsize} % Punkte zw. Abkürzung und Erklärung
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\makenomenclature
+%\makeglossaries
+
+\usepackage[left=40mm,right=20mm,top=30mm,bottom=30mm,headsep=10mm,includeheadfoot]{geometry}
+\usepackage{scrpage2,setspace}
+\pagestyle{scrheadings}
+\automark[chapter]{chapter}
+\onehalfspacing
+
+\bibliographystyle{plain}
+
+\begin{document}
+	\clearscrheadfoot
+	\ohead[\pagemark]{\pagemark}
+	\include{Titelseite}
+	%\include{Sperrvermerk}
+	%\include{Glossar}
+	\pagenumbering{Roman}
+	\tableofcontents
+	\newpage
+
+	\pagenumbering{arabic}
+	\ihead{\rightmark}\chead{}\ohead[\pagemark]{\pagemark}
+	\setheadsepline{0.2pt}
+	\include{Kapitel/Einleitung}
+	\include{Kapitel/Grundlagen}
+	\include{Kapitel/Hardware}
+	\include{Kapitel/Sensor}
+	\include{Kapitel/Messprotokolle}
+	\include{Kapitel/Zusammenfassung}
+
+	\clearscrheadfoot
+	\ohead[\pagemark]{\pagemark}
+	\pagenumbering{Roman}
+	\listoffigures
+	\listoftables
+	\printnomenclature
+%	\printglossaries
+	\bibliography{Literatur}
+	\newpage
+	\clearscrheadfoot
+	\include{Erklaerung}
+	\vspace{\fill}
+	\newpage
+
+	\clearscrheadfoot
+	\ihead{\rightmark}\chead{}\ohead[\pagemark]{\pagemark}
+	\setheadsepline{0.2pt}
+	\pagenumbering{Roman}
+	\appendix
+	\include{Kapitel/Anhang}
+
+\end{document}

@@ -1,0 +1,16 @@
+\chapter{Einleitung}
+	\section{Motivation}
+		Beim Stadtlichtprojekt Leipzig geht es darum, die bereits seit langer Zeit bestehenden Natriumdampflampen der Stadtbeleuchtung gegen neuartige LED-Beleuchtungsmodule auszutauschen. Diese Module bieten im Vergleich zu den herkömmlichen Lampen viele Möglichkeiten die Lichtverteilung, die Lichtintensität, als auch die Lichtfarbe zu ändern. 
+		
+		Sinnvoll ist dies vor allem dann, wenn die Umgebungssituation ein spezielles Beleuchtungsprofil erfordert. Beispielsweise macht bei Regen eine andere Beleuchtung Sinn\footnote{Beispielsweise um Spiegelungen zu minimieren}, als dies bei trockener Straßenoberfläche der Fall wäre. Das verbessert wiederum die Sichtverhältnisse der Straßenteilnehmer und erhöht einhergehend die Sicherheit auf den Straßen. Vor allem in Blick auf die jährlichen Unfallraten im Straßenverkehr ist dies als sehr sinnvoll zu erachten.
+		
+		Um die dafür nötigen Umgebungsverhältnisse aufzunehmen, muss letztlich eine Sensorik eingesetzt werden. Diese wird an und in der Umgebung der Lampenköpfe installiert, welche über die Stadt verteilt werden und sollte zuverlässig Verhältnisse wie Regen, Nebel oder Oberflächeneisbildung erkennen können.
+		\newpage
+	\section{Ausgangslage}
+		Es existiert bereits ein Prototyp der Lampenköpfe, welcher eine Steuereinheit enthält. Diese besteht aus einem speziellen Mikrocontroller samt einer Vorschaltung für die Netzwerkfähigkeit, einem Modul das die LED Streifen ansteuern kann sowie einem Temperatursensor, der direkt auf dem Board angebracht ist.
+	\section{Ziel der Arbeit}
+		Das Ziel der Arbeit besteht darin, verschiedene Sensoren zur Umwelterfassung zu bewerten und eine Referenzimplementierung auf der Plattform mbed NXP LPC1768 bereitzustellen.
+		
+		Dazu wurden drei Sensoren, zwei Temperatur- und Feuchtigkeitssensoren, ein Regensensor und ein Empfangsmodul für das allgemein ausgestrahlte Zeitsignal DCF77 bereitgestellt. Deren Funktionalität muss auf der Plattform unter Beachtung des Ressourcenverbrauchs implementiert und getestet werden.
+		
+		Letztlich soll die Sensorik noch exemplarisch vermessen und dokumentiert werden.

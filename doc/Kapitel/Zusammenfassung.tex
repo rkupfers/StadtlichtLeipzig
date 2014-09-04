@@ -1,0 +1,75 @@
+\chapter{Zusammenfassung}
+	\section{Ergebnis der Arbeit}
+		Das Ziel der Arbeit bestand darin, verschiedene Sensoren zur Umwelterfassung zu bewerten und eine Referenzimplementierung auf der Plattform mbed NXP LPC1768 bereitzustellen.
+		
+		Es wurden zwei Sensoren zur Temperatur-/Luftfeuchteerfassung bereitgestellt, ein Empfänger um das allgemein ausgestrahlte Zeitsignal DCF77 zu empfangen und ein Sensor, der Regen detektieren kann. Für all diese Sensoren wurde eine Referenzimplementierung in C++ geschaffen, damit diese möglichst einfach in Projekten benutzt werden können. 
+		
+		Bei dieser Implementierung wurde auf eine möglichst geringe CPU-Last wert gelegt, da die Erfassung von Umweltdaten nicht das einzige Ziel des Mikrocontrollers darstellt. Ohne eine detaillierte Debugging-Möglichkeit kann jedoch nicht festgestellt werden, wie gut dies gelungen ist und kann nur theoretisch abgeschätzt werden.
+		
+		Die verwendeten Temperatur-/Luftfeuchtesensoren funktionieren anhand der Testergebnisse sehr gut, besitzen jedoch, im Vergleich zu einem teurem Messgerät, deutliche Abweichungen. Die Referenzimplementierung bietet die Möglichkeiten den Sensor abzufragen und folgend einzeln die Temperatur und Luftfeuchte zu erfragen. Auch ein ändern der Adresse des Sensors bezüglich des I²C Protokolls ist möglich, erfordert jedoch eine spezielle Vorschaltung.
+		
+		\newpage
+		Der Regensensor detektiert zuverlässig, ob Niederschlag vorherrscht oder nicht. Mit der verfügbaren Empfindlichkeitseinstellung kann dieser so weit verändert werden, das selbst Nebel erkannt werden kann. Der Sensor hat jedoch scheinbar ein Problem innerhalb der Verschaltung, da er einen deutlich höheren Maximalstrom als im Datenblatt angegeben benötigt. 
+		
+		Das Empfangsmodul für das DCF77 Signal empfängt das ausgestrahlte Signal zuverlässig, sofern das Modul speziell ausgerichtet ist und sich nicht in der Nähe von Störquellen befindet. Sind diese beiden Punkte doch eingetreten, so wird der korrekte Empfang des Signals fast unmöglich. Die Implementierung für den Empfänger bietet separat an den aktuellen Uhrzeitstempel zu empfangen, diesen auszulesen und die Controller interne \enquote{Real-Time-Clock} zu setzen. Um Empfangsschwierigkeiten erfassen zu können wurde eine intensive Überprüfung des empfangen Stempels implementiert.
+	\section{Bewertung des Ergebnisses}
+		\subsection{DCF77 Empfänger}
+			Der Empfänger für das Signal DCF77 liefert zuverlässig das aus Mainhausen ausgestrahlte Funksignal und hat sich mit kleineren Problemen gut benutzen lassen. 
+			
+			Eines der Probleme stellt die eher dürftige Dokumentation des Empfängers dar. Die über Conrad bereitgestellten Dokumente beschreiben den Empfänger nur sehr schlecht und die Informationen diesbezüglich musste über Foren und Erfahrungsberichte zusammengetragen werden. Da diese jedoch keine zuverlässige Quelle darstellen und man nicht genau sagen kann, was die entsprechenden Autoren eventuell anders als im vorliegenden Projekt gemacht haben, sind diese Informationen eher als kritisch zu bewerten.
+			
+			Eines der Dokumentationsprobleme lag im Anschluss des Empfängers an den Mikrocontroller. Es ist zwar ein Schaltplan auf der Internetseite von Conrad gegeben, es war jedoch nicht ersichtlich warum diese Schaltung benutzt werden muss. Da ohne die entsprechende Schaltung aber kein stabiles Signal am Mikrocontroller abgefasst werden kann, wurde die entsprechende Schaltung realisiert.
+			
+			Ein weiteres Problem ist der schlechte Empfang des Moduls. Um das Signal aus Mainhausen zuverlässig empfangen zu können muss der Empfänger sehr genau ausgerichtet sein und von Störquellen wie Röhrenmonitoren weit entfernt sein. Auch im Internet wurde dies viel bemängelt, jedoch keine Lösung dafür gefunden. Da allerdings jede Funkuhr dies deutlich besser beherrscht wurde im Internet der Ratschlag gegeben das Empfangsmodul aus einer Funkuhr zu verwenden. Diese Lösung soll deutlich besser Funktionieren und keine Probleme bereiten. Einzig die fehlende Dokumentation ist hierbei problematisch.
+			
+			Zusammenfassend ist dieses spezielle Modul für die aktive Benutzung nicht zu empfehlen. Als Lernprojekt ist es sicher einsetzbar, jedoch nicht in einem kommerziellen Projekt, da die Empfangsschwierigkeiten zu gravierend sind.
+		\subsection{Regensensor CON-REGME-24V}
+			Der Regensensor des Unternehmens B+B Thermo erkennt zuverlässig ob Niederschlag vorherrscht. Leider ist der Sensor selbst nur schlecht Dokumentiert, auch ein mehrmaliges Nachfragen beim Hersteller brachte hier keine Besserung.
+			
+			Probleme hat der Sensor mit der eingebauten Heizung bereitet. Sobald diese eingeschaltet wird zieht das gesamte Modul kurzfristig so viel Strom, das die Spannungsversorgung zusammenbricht. Damit konnte der Sensor nicht mit einer gemeinsamen Spannungsquelle für die Elektronik betrieben werden.
+			
+			Weiterhin sind die Einstellungsmöglichkeiten des Sensors bezüglich der Empfindlichkeit eher spärlich. Diese wird über ein Potentiometer eingestellt. Eine genaue Einstellung lässt sich somit nicht ohne extra Aufwand automatisieren und kann nur grob getroffen werden. Würde der Sensor Einstellungs- und Abfragemöglichkeiten über I²C oder einen anderen Bus bereitstellen, wäre dies deutlich vorteilhafter.
+			
+			Die vom Sensor selbst bereitgestellte Information ist minimal. Es wird lediglich bereitgestellt, ob es Regnet oder nicht. Dies ist sehr spartanisch und könnte über ein Bus-System ebenfalls besser gelöst werden.
+			
+			Zusammenfassend ist der Sensor nicht ohne weitere Messreihen zu empfehlen, da die Dokumentation zu spärlich und die Integration in einen Mikrocontroller ebenfalls nicht als optimal betrachtet werden kann.
+		\subsection{Temperatur-/Feuchtigkeitssensor HYT2x1}
+			Die Temperatur und Feuchtigkeitssensoren aus dem Hause Hygrosens sind zuverlässig und relativ leicht ansteuerbar. Die bereitgestellte I$^{2}$C Schnittstelle ist ein industrieller Standard, wodurch die Sensoren für den kommerziellen Einsatz geeignet sind. Einziger Wermutstropfen ist der relativ hohe Preis von 26\euro{}.
+			
+			Aber auch bei diesen Sensoren gab es kleinere Schwierigkeiten. Die Standard Adresse des HYT2x1 ist vom Hersteller auf 0x28 gesetzt. Beim Versuch diese umzuprogrammieren musste sehr viel Zeit in das Lesen von Forenbeiträgen investiert werden, um herauszufinden wie dies genau machbar ist. Der Hersteller bietet dazu keine Dokumentation.
+			
+			Weiterhin konnte die angegebene Genauigkeit aus dem Datenblatt nicht bestätigt werden. Dazu weichen die Messwerte zu sehr von denen der Referenzgeräte ab. Alles in allem liefern die Sensoren aber relativ genaue Messwerte und halten sonst das Datenblatt augenscheinlich ein.
+		\subsection{Mikrocontroller \enquote{mbed NXP LPC1768}}
+			Der Controller bietet ein großes Leistungsspektrum und ist ohne große Entwicklungskette programmierbar. Er bietet viele Möglichkeiten gängige Bus-Systeme anzubinden und macht dies durch die Online bereitgestellten Bibliotheken sehr einfach.
+			
+			Besonders durch die Bibliotheken lernt man als Entwickler jedoch nur wenig über den Controller an sich. Die Bibliotheken abstrahieren die Benutzung des Controllers auf ein Hochsprachen-Niveau, was wiederum vorteilhaft für Neueinsteiger ist.
+			
+			Zusammenfassend kann der Controller für die Prototyp-Entwicklung nur wärmstens empfohlen werden.
+			\newpage
+		\subsection{Entwicklungsumgebung}
+			Die Entwicklungsumgebung ist generell gut geeignet, schnell ein einfaches Prototyp-Projekt aufzuziehen und bietet dafür alles nötige. Es müssen keine Einstellungen getroffen werden, wodurch man direkt mit der Entwicklung beginnen kann.
+			
+			Der Umgebung fehlen jedoch einige Dinge, die man als Entwickler von Umgebungen wie Netbeans oder Eclipse her gewohnt ist. Das fehlen dieser Punkte macht das arbeiten mit der Umgebung deutlich langsamer und unkomfortabler. Negativ ist dabei aufgefallen:
+			
+			\begin{itemize}
+				\item Fehlende Code-Autovervollständigung
+				\item Schlechtes Autoformat
+				\item Keine bzw. zu wenige Einstellungsmöglichkeiten (bspw. Autoformat, Compiler, Code-Highlighting)
+				\item Keine Debugging Möglichkeit
+			\end{itemize}
+			
+			Besonders die fehlenden Einstellungsmöglichkeiten und die fehlende Debugging Möglichkeit machen es im fortschreitenden Projekten schwer, mit der Umgebung zu arbeiten. Hier sollte überlegt werden auf herkömmliche Plattformen wie Eclipse auszulagern.
+	\section{Ausblick auf zukünftige Entwicklung}
+		Die Benutzung von Umwelt erfassenden Sensoren kann in Hinblick auf das Stadtlichtprojekt Leipzig nur empfohlen werden. Mit diesen könnten verschiedene, im nachfolgenden aufgezählte, Szenarien gut und ohne großen Mehraufwand, im Vergleich zu einer separaten Lösung, umgesetzt werden.
+		
+		Mit den von verschiedenen Sensoren bereitgestellten Daten kann ein feinmaschiges Netz zur Wettererfassung über Leipzig und anderen Städten erstellt werden, das Meteorologen helfen kann, Wetterbedingungen besser zu verstehen und zu erfassen. Da dies aber eher unnütz für die Stadt selbst ist und mehr einem Prestige Projekt gleich kommt sind die folgenden Szenarien als praktischer anzusehen.
+		
+		Ausgehend von Wetterdaten kann der Stadtrat einer Stadt ein besseres Bild der Stadt selbst erschaffen, welches beispielsweise Optimierungspotenzial offenbart. Zu diesem Zweck müssten allerdings noch weitere, beziehungsweise andere Sensoren in das Projekt eingebunden werden.
+		
+		Würden beispielsweise Sensoren zur Luftqualitätserfassung eingesetzt, könnte man Stadtteile erfassen, die besser begrünt werden müssen. Saubere Luft und Grünanlagen haben einen positiven Einfluss auf die Menschen und deren Wohlbefinden und sollten für eine Stadt weit oben auf der Prioritätenliste stehen. Schließlich zieht eine erfolgreiche Stadt mehr Menschen in ihre Nähe und floriert somit besser. Andererseits könnten diese Sensoren auch als Messeinrichtung für die Erfolgsauswertung der sogenannten Umweltzonen der Stadt genutzt werden. Diese sollen die Luftverschmutzung reduzieren, werden aber oft schlicht präventiv und ohne Auswertung eingesetzt.
+		
+		Ebenfalls als sinnvoll erachtet sind Sensoren zur Überwachung der Verkehrsdichte. Über diese könnte ausgewertet werden, welche Straßen deutlich zu stark befahren sind und das Städtische Verkehrsnetz optimiert werden. Stark befahrene Straßen könnten entlastet werden, was einerseits der Straßenabnutzung entgegen wirkt, und andererseits das Wohlbefinden der Bewohner steigert. Straßenlärm ist schließlich eines der Hauptkriterien für Unmut und fehlende Entspannung. 
+		
+		Weiterhin könnte der Verkehr sicherer gemacht werden, indem Sensoren zur Oberflächenerfassung von Straßen eingesetzt werden. Diese könnten beispielsweise über ein Kamera oder Laser System erkennen, ob Straßen vereist sind und über die Beleuchtungseinrichtung die diese Straße benutzenden Menschen warnen. Dies könnte ein Minimierung der Unfallgefahr nach sich ziehen und damit die Straßen sicherer machen.
+		
+		Sicher können an dieser Stelle noch deutlich mehr Möglichkeiten für den intelligenten Einsatz von Sensorik an der Stadtbeleuchtung gefunden werden. Diese zu erörtern ist jedoch nicht Ziel dieser Arbeit. Es soll lediglich gezeigt werden, dass die vorgestellten Ideen die Lebensqualität der Menschen einer Stadt deutlich verbessern könnten.

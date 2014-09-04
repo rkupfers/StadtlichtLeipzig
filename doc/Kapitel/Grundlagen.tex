@@ -1,0 +1,37 @@
+\chapter{Fachliches Umfeld / Technische Grundlagen}
+	\section{I$^{2}$C}
+		\nomenclature{I²C}{Inter-Integrated Circuit}
+		I$^{2}$C steht für Inter-Integrated Circuit. Es handelt sich hierbei um ein von Philips Semiconductors\footnote{Heute: NXP Semiconductors} entwickelten seriellen Datenbus. Ursprünglich konnten mit diesem Bus Datenübertragungsraten von 100 kbit/s erreicht werden. Mit dem aktuellen Standard\footnote{Version 3.0} von 2007 erreicht man Datenraten von bis zu 3,4 Mbit/s. 
+		
+		I$^{2}$C zeichnet sich dadurch aus, dass der Bus nur ein Leitungspaar benötigt. Trotz dieses vergleichsweise einfachen Aufbaus ist I$^{2}$C sehr flexibel.
+		\subsubsection{Vorteile von I$^{2}$C:}
+			\begin{enumerate}
+				\item Nur zwei Busleitungen benötigt
+				\item Keine Harten Baud-Raten-Anforderungen
+				\item Einfache Master-Slave Beziehung der Buskomponenten
+				\item Jede Komponente hat eine eindeutige Adresse
+				\item Echter Multimasterbus mit Kollisionsbehandlung
+			\end{enumerate}
+			
+			\cite{I2C}
+		\subsection{Adressierung}
+			Üblicherweise benutzt I$^{2}$C 7-Bit Adressen. Durch diese stehen 128 möglich Adressen zur Verfügung. Es existieren jedoch 16 reservierte Adressen, weswegen nur 112 Adressen vergeben werden können. In neueren Standards\footnote{ab Version 1.0} werden 10 Bit zur Adressierung verwendet, wodurch bis zu 1008 Geräte adressiert werden können.
+			
+			Zu erwähnen ist, dass bei I$^{2}$C immer 8 Bit Blöcke gesendet werden. Das letzte Bit der Adressierung wird dazu genutzt, dem Gerät mitzuteilen ob es sich um ein Lese-(1) oder eine Schreiboperation(0) handelt.
+			
+			\cite{I2C}
+	\section{Elektrolytische Wechselspannungsmessung}
+		Die elektrolytische Wechselspannungsmessung wird benutzt um die Leitfähigkeit, beziehungsweise die Impedanz eines bestimmtem Elektrolyts feststellen zu können.
+		
+		Typischerweise wird zur Widerstandsmessung eine Gleichspannung verwendet. Da bei einem Elektrolyt die Gleichspannung jedoch eine Debye-Schicht erzeugen würde, wird zur Widerstandsmessung von Elektrolyten eine Wechselspannung verwendet, welche diese Schicht nicht erzeugt. Mittels der Wechselspannung kann die Impedanz \underline{Z} und der Scheinwiederstand Z des Elektrolyts über die Formeln
+		\[ \underline{Z} = \frac{u(t)}{i(t)}\hspace{1cm}Z = \frac{\hat{u}}{\hat{i}} \]
+		berechnet werden. Der Kehrwert des Widerstands normiert auf ein dimensioniertes Stück des leitenden Materials gibt letztlich die Leitfähigkeit des Elektrolyts an.
+		
+		\cite{Impedanz}, \cite{Leitwert}
+	\section{Mercurial}
+		\nomenclature{VCS}{Versionsverwaltungssystem (Version Control System)}
+		Mercurial ist ein verteiltes Versionsverwaltungssystem (VCS). Es wurde zeitgleich mit dem VCS Git entwickelt und war anfangs als VCS für den Linux Kernel gedacht. Für diesen wurde jedoch zeitnah das von Linus Torvalds entwickelte Git eingesetzt. Daher musste sich Mercurial zu einem eigenständigem VCS weiterentwickeln.
+		
+		Mercurial setzt sonst auf den gleichen Spezifikationen wie Git auf, wird aber oft als das einfachere System bezeichnet. Es bietet verteilte Versionskontrolle, Geschwindigkeit, Unterstützung durch große Hosting-Plattformen und Datensicherheit.
+		
+		\cite{Mercurial}
